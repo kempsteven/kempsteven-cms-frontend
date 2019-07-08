@@ -16,6 +16,7 @@ export default [
 			path: '/',
 			name: 'home',
 			component: Home,
+			redirect: '/dashboard',
 			children: [
 				{
 					path: '/dashboard',
