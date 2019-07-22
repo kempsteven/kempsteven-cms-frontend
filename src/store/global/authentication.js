@@ -22,12 +22,18 @@ export const actions = {
         form.append('password', state.password)
 
         const { data } = await api('post', '/user/login', form)
-        
+
         commit('clearLogin')
 
         // if error
         if (data.status !== 200) {
-            state.error = data.message
+            commit('modal/toggleModal', {
+                modalName: 'alert-modal',
+                modalType: 'error',
+                modalTitle: 'Oooops!',
+                modalDesc: data.message,
+            }, { root: true })
+
             return
         }
 

@@ -1,0 +1,46 @@
+@import 'animations';
+
+@mixin flex-box($justify-content, $align-items, $flex-direction) {
+    display: flex;
+    
+
+    @if $justify-content != ''  {
+        justify-content: $justify-content;
+    }
+
+    @if $align-items != '' {
+        align-items: $align-items;
+    }
+
+    @if $flex-direction != '' {
+        flex-direction: $flex-direction;
+    }
+}
+
+@mixin mobile(){
+    @media (max-width: 768px) { @content; }
+}
+
+@mixin fadein($duration, $delay){ 
+    animation-name: appear;
+animation-duration: $duration;
+    animation-delay: $delay;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+@mixin fadeout($duration, $delay){ 
+    animation-name: disappear;
+    animation-duration: $duration;
+    animation-delay: $delay;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+@mixin fadeinfromtop($duration, $delay){ 
+    animation-name: fadeInFromTop;
+    animation-duration: $duration;
+    animation-delay: $delay;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}

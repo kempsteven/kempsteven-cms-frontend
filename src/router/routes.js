@@ -1,3 +1,5 @@
+const PageNotFound = () => import('@/views/PageNotFound')
+
 const Home = () => import('@/views/home/Home')
 const Login = () => import('@/views/guest/Login')
 const Dashboard = () => import('@/views/home/dashboard/Dashboard')
@@ -9,6 +11,12 @@ export default [
 			name: 'login',
 			component: Login
 		},
+
+		{
+			path: '*',
+			name: 'PageNotFound',
+			component: PageNotFound,
+		}
 	]),
 
 	...middleware('auth', [
@@ -27,8 +35,14 @@ export default [
 					}
 				}
 			]
+		},
+
+		{
+			path: '*',
+			name: 'PageNotFound',
+			component: PageNotFound,
 		}
-	])
+	]),
 ]
 
 function middleware(middleware, routes) {
