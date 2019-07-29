@@ -44,6 +44,14 @@ export const actions = {
         router.push('/dashboard')
     },
 
+    async logOut({ commit }) {
+        state.isLoggedIn = false
+        state.token = ''
+        cookies.remove('token')
+
+        router.push('/login')
+    },
+
     async checkToken () {
         const { data } = await api('get', '/user/check-token')
 

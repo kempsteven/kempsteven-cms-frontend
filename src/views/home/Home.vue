@@ -4,7 +4,8 @@
 
 		<div class="main-section">
 			<HeaderLayout />
-			<router-view />
+
+			<router-view class="router-container"/>
 		</div>
 	</div>
 </template>
@@ -24,12 +25,18 @@ export default {
 .home {
 	width: 100%;
 	height: 100%;
-	background: #363636;
+	background: #232B38;
 	display: flex;
 
 	.main-section {
 		@include flex-box('', '', column);
-		width: 100%;
+		width: calc(100% - 230px);
+
+		.router-container {
+			padding: 0 25px;
+			width: 80%;
+			margin: 15px auto 0 auto;
+		}
 	}
 }
 </style>

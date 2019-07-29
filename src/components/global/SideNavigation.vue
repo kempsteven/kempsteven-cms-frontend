@@ -13,13 +13,9 @@
         </div>
 
         <ul class="nav-list">
-            <li class="nav-item active">
+            <li class="nav-item" :class="{ 'active' : $route.name === 'dashboard' }">
                 <router-link class="router-link" to="/dashboard">
-                    <img
-                        class="nav-icon"
-                        :src="require('@/assets/img/icon/dashboard.png')"
-                        alt="Dashboard Icon"
-                    >
+                    <div class="nav-icon"/>
 
                     <span class="nav-name">
                         Dashboard
@@ -29,11 +25,7 @@
 
             <li class="nav-item">
                 <router-link class="router-link" to="/dashboard">
-                    <img
-                        class="nav-icon"
-                        :src="require('@/assets/img/icon/dashboard.png')"
-                        alt="Dashboard Icon"
-                    >
+                    <div class="nav-icon"/>
 
                     <span class="nav-name">
                         Dashboard
@@ -43,11 +35,7 @@
 
             <li class="nav-item">
                 <router-link class="router-link" to="/dashboard">
-                    <img
-                        class="nav-icon"
-                        :src="require('@/assets/img/icon/dashboard.png')"
-                        alt="Dashboard Icon"
-                    >
+                    <div class="nav-icon"/>
 
                     <span class="nav-name">
                         Dashboard
@@ -57,11 +45,7 @@
 
             <li class="nav-item">
                 <router-link class="router-link" to="/dashboard">
-                    <img
-                        class="nav-icon"
-                        :src="require('@/assets/img/icon/dashboard.png')"
-                        alt="Dashboard Icon"
-                    >
+                    <div class="nav-icon"/>
 
                     <span class="nav-name">
                         Dashboard
@@ -74,22 +58,22 @@
 
 <script>
 export default {
-    
 }
 </script>
 
 <style lang="scss" scoped>
 .side-nav {
-    width: 350px;
-    padding: 25px 45px;
+    width: 230px;
+    padding: 25px 0px 25px 0px;
+    background: #13161D;
+    background: linear-gradient(0deg, #13161D 0%, #2F3A4C 80%);
 
     .logo-container {
         width: 100%;
         @include flex-box(flex-start, center, '');
         margin-bottom: 25px;
-        // border: 1px solid #fff;
         border-radius: 3px;
-        padding: 10px 0 10px 0px;
+        padding: 10px 0 10px 25px;
         
         .logo {
             width: 40px;
@@ -111,41 +95,53 @@ export default {
 
         .nav-item {
             display: block;
-            // margin: 15px 0;
-            padding: 5px 10px;
+            padding: 5px 10px 5px 20px;
             border-radius: 1px;
-            transition: 0.3s;
+            border-left: 5px solid transparent;
+            transition: 0.2s;
 
             &.active {
-                background: rgba($color: #fff, $alpha: 0.2);
+                border-left: 4px solid #8ddff8;
 
-                .nav-name {
-                    // font-weight: 600;
+                .router-link {
+                    color: #8ddff8;
+
+                    .nav-icon {
+                        background-image: url('~@/assets/img/icon/dashboard_hover.png');
+                    }
                 }
             }
 
             &:hover {
-                background: rgba($color: #fff, $alpha: 0.2);
+                 border-left: 4px solid #8ddff8;
 
-                .nav-name {
-                    // font-weight: 600;
+                .router-link {
+                    color: #8ddff8;
+
+                    .nav-icon {
+                        background-image: url('~@/assets/img/icon/dashboard_hover.png');
+                    }
                 }
             }
 
             .router-link {
                 @include flex-box(flex-start, center, '');
-
                 text-decoration: none;
                 color: #fff;
+                transition: 0.2s;
 
                 .nav-icon {
-                    width: 40px;
-                    margin-right: 20px;
+                    width: 32px;
+                    height: 32px;
+                    margin-right: 15px;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    background-image: url('~@/assets/img/icon/dashboard.png');
                 }
 
                 .nav-name {
                     display: block;
-                    font-size: 16px;
+                    font-size: 14px;
                 }
             }
         }

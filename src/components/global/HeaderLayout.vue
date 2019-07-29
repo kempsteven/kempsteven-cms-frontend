@@ -1,6 +1,12 @@
 <template>
     <section class="header">
         <h1 class="header-title">
+            <img
+                class="title-icon"
+                :src="require('@/assets/img/icon/dashboard.png')"
+                alt="Header Title"
+            >
+            
             Dashboard
         </h1>
 
@@ -12,7 +18,7 @@
             </div>
 
             <ul class="dropdown-container" :class="{ 'active' : toggleDropdown }">
-                <li class="dropdown-item">
+                <li class="dropdown-item" @click="logOut()">
                     Logout
                 </li>
             </ul>
@@ -26,7 +32,13 @@ export default {
         return {
             toggleDropdown: false
         }
-    }
+    },
+
+    methods: {
+        async logOut () {
+            await this.$store.dispatch('authentication/logOut')
+        }
+    },
 }
 </script>
 
@@ -40,12 +52,19 @@ export default {
     .header-title {
         display: block;
         margin: 0;
-        padding: 15px;
+        padding: 15px 45px;
         color: #fff;
+        @include flex-box(center, center, '');
+
+        .title-icon {
+            width: 50px;
+            margin-right: 20px;
+        }
     }
 
     .admin-container {
         position: relative;
+        padding-right: 25px;
 
         .user-icon-container {
             @include flex-box(center, center, '');
@@ -53,7 +72,6 @@ export default {
             border-radius: 50%;
             padding: 5px;
             cursor: pointer;
-            margin-right: 25px;
             transition: 0.3s;
             &:hover {
                 background: rgba($color: #fff, $alpha: 0.5);
