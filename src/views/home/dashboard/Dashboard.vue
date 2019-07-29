@@ -1,11 +1,23 @@
 <template>
 	<div class="dashboard">
 		<div class="dashboard-container">
-        	<DashboardCard value="227" name="Unique Visitors" :icon="require('@/assets/img/icon/visitor.png')"/>
+			<DashboardCard
+				value="227"
+				name="Unique Visitors"
+				:icon="require('@/assets/img/icon/visitor.png')"
+			/>
 
-			<DashboardCard value="2,153" name="Requests" :icon="require('@/assets/img/icon/request.png')"/>
+			<DashboardCard
+				value="2,153"
+				name="Requests"
+				:icon="require('@/assets/img/icon/request.png')"
+			/>
 
-			<DashboardCard value="10 MB" name="Bandwidth" :icon="require('@/assets/img/icon/bandwidth.png')"/>
+			<DashboardCard
+				value="10 MB"
+				name="Bandwidth"
+				:icon="require('@/assets/img/icon/bandwidth.png')"
+			/>
 		</div>
 
 		<div class="chart-container">
