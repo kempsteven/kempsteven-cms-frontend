@@ -1,20 +1,46 @@
 <template>
 	<div class="dashboard">
-		<div class="dashboard-container">
+		<div class="dashboard-days">
+			<span
+				class="day"
+				:class="{ 'active' : activeDay === 1 }"
+				@click="activeDay = 1"
+			>
+				1 Day
+			</span>
+
+			<span
+				class="day"
+				:class="{ 'active' : activeDay === 7 }"
+				@click="activeDay = 7"
+			>
+				7 Day
+			</span>
+
+			<span
+				class="day"
+				:class="{ 'active' : activeDay === 30 }"
+				@click="activeDay = 30"
+			>
+				30 Day
+			</span>
+		</div>
+
+		<div class="card-container">
 			<DashboardCard
-				value="227"
+				:value="dashboardTotals.uniques"
 				name="Unique Visitors"
 				:icon="require('@/assets/img/icon/visitor.png')"
 			/>
 
 			<DashboardCard
-				value="2,153"
+				:value="dashboardTotals.requests"
 				name="Requests"
 				:icon="require('@/assets/img/icon/request.png')"
 			/>
 
 			<DashboardCard
-				value="10 MB"
+				:value="setBandwidth(dashboardTotals.bandwidth)"
 				name="Bandwidth"
 				:icon="require('@/assets/img/icon/bandwidth.png')"
 			/>
@@ -27,22 +53,23 @@
 </template>
 
 <script>
+import { mapFields } from 'vuex-map-fields'
+import * as dashboardModel from '@/store/dashboard/model.js'
 export default {
-	name: 'home',
 	data () {
 		return {
 			series: [
 				{
 					name: 'Unique Visitors',
-					data: [31, 40, 28, 51, 42, 109, 100]
+					data: []
 				}, 
 				{
 					name: 'Requests',
-					data: [11, 32, 45, 32, 34, 52, 41]
+					data: []
 				},
 				{
 					name: 'Bandwidth',
-					data: [11, 35, 55, 12, 114, 55, 72]
+					data: []
 				}
 			],
 
@@ -95,7 +122,9 @@ export default {
 						style: {
 							colors: '#fff',
 						},
-					}
+					},
+
+					type: 'datetime'
 				},
 
 				yaxis: {
@@ -103,9 +132,74 @@ export default {
 						style: {
 							color: '#fff',
 						},
-					}
+
+						formatter: (value) => {
+							return value
+						},
+					},
+
+					type: 'text'
 				}
 			}
+		}
+	},
+
+	computed: {
+		...mapFields(`dashboard`, [
+			'loading',
+			'dashboardTotals',
+			'dashboardTimeSeries',
+			'activeDay'
+		]),
+	},
+
+	watch: {
+		activeDay: {
+			handler: 'getDashboardData',
+			immediate: true
+		}
+	},
+	
+	beforeCreate () {
+		if (!this.$store._modulesNamespaceMap['dashboard/']) {
+			this.$store.registerModule('dashboard', dashboardModel.default)
+		}
+	},
+
+	methods: {
+		async getDashboardData () {
+			await this.$store.dispatch('dashboard/getDashboardData')
+
+			this.setDashboardTimeSeries()
+		},
+
+		setDashboardTimeSeries () {
+			this.series[0].data = []
+			this.series[1].data = []
+			this.series[2].data = []
+
+			this.dashboardTimeSeries.forEach(data => {
+				this.series[0].data.push({
+					x: new Date(data.until.replace(/-/g, '-')),
+					y: `${data.uniques.all}`
+				})
+
+				this.series[1].data.push({
+					x: new Date(data.until.replace(/-/g, '-')),
+					y: `${data.requests.all}`
+				})
+
+				this.series[2].data.push({
+					x: new Date(data.until.replace(/-/g, '-')),
+					y: this.setBandwidth(data.bandwidth.all)
+				})
+			})
+		},
+
+		setBandwidth (bandwidth) {
+			if (!bandwidth) return
+
+			return `${(bandwidth * 0.000001).toFixed(2)} MB`
 		}
 	},
 
@@ -116,16 +210,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.apexcharts-tooltip {
-    background: #f3f3f3;
-    color: orange;
-}
-
 .dashboard {
 	width: 100%;
 	margin: 0 auto;
+
+	.dashboard-days {
+		display: flex;
+		margin-bottom: 15px;
+		
+		.day {
+			color: #fff;
+			cursor: pointer;
+			background-color: #293243;
+			border: 1px solid #293243;
+			padding: 10px;
+			border-radius: 3px;
+			transition: 0.3s;
+			opacity: 0.6;
+			
+			&.active, &:hover {
+				border: 1px solid #4e4f52;
+				opacity: 1;
+			}
+
+			&:not(:last-child) {
+				margin-right: 15px;
+			}
+		}
+	}
 	
-	.dashboard-container {
+	.card-container {
 		@include flex-box(space-between, '', '');
 		width: 100%;
 		margin-bottom: 50px;

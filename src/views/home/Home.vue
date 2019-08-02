@@ -31,6 +31,8 @@ export default {
 	.main-section {
 		@include flex-box('', '', column);
 		width: calc(100% - 230px);
+		height: 100%;
+		overflow: auto;
 
 		.router-container {
 			padding: 0 25px;

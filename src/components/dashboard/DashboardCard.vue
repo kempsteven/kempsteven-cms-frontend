@@ -7,8 +7,8 @@
         >
         
         <div class="details-container">
-            <div class="card-value">
-                {{ value }}
+            <div class="card-value" >
+                {{ value || '-' }}
             </div>
 
             <span class="card-title">
@@ -27,7 +27,7 @@ export default {
         },
 
         value: {
-            type: String,
+            type: String | Number,
             default: '' 
         },
 
@@ -51,7 +51,7 @@ export default {
 
     .card-icon {
         width: 55px;
-        margin-right: 40px;
+        margin-right: 15%;
     }
 
     .details-container {

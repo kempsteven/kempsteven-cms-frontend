@@ -23,8 +23,15 @@ ul {
 	padding: 0;
 }
 
+span {
+	display: inline-block;
+}
+
 ._transition-anim-enter-active, ._transition-anim-leave-active {
 	transition: 0.3s ease;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 ._transition-anim-enter, ._transition-anim-leave-to{

@@ -59,6 +59,7 @@
 </template>
 <script>
 import { mapFields } from 'vuex-map-fields';
+import * as dashboardModel from '@/store/dashboard/model.js'
 export default {
     computed: {
         // The `mapFields` function takes an array of
@@ -76,6 +77,12 @@ export default {
         return {
             // isVideoLoaded: false
         }
+    },
+
+    beforeCreate () {
+		if (!this.$store._modulesNamespaceMap['dashboard/']) {
+			this.$store.registerModule('dashboard', dashboardModel.default)
+		}
     },
 
     methods: {
