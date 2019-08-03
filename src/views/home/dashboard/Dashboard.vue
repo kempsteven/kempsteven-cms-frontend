@@ -3,24 +3,24 @@
 		<div class="dashboard-days">
 			<span
 				class="day"
-				:class="{ 'active' : activeDay === 1 }"
-				@click="activeDay = 1"
+				:class="{ 'active' : activeDay === 1, 'loading' : loading }"
+				@click="changeFilter(1)"
 			>
 				1 Day
 			</span>
 
 			<span
 				class="day"
-				:class="{ 'active' : activeDay === 7 }"
-				@click="activeDay = 7"
+				:class="{ 'active' : activeDay === 7, 'loading' : loading }"
+				@click="changeFilter(7)"
 			>
 				7 Day
 			</span>
 
 			<span
 				class="day"
-				:class="{ 'active' : activeDay === 30 }"
-				@click="activeDay = 30"
+				:class="{ 'active' : activeDay === 30, 'loading' : loading }"
+				@click="changeFilter(30)"
 			>
 				30 Day
 			</span>
@@ -168,6 +168,8 @@ export default {
 
 	methods: {
 		async getDashboardData () {
+			if (this.loading) return
+
 			await this.$store.dispatch('dashboard/getDashboardData')
 
 			this.setDashboardTimeSeries()
@@ -200,6 +202,12 @@ export default {
 			if (!bandwidth) return
 
 			return `${(bandwidth * 0.000001).toFixed(2)} MB`
+		},
+
+		changeFilter (day) {
+			if (this.loading) return
+
+			this.activeDay = day
 		}
 	},
 
@@ -227,6 +235,11 @@ export default {
 			border-radius: 3px;
 			transition: 0.3s;
 			opacity: 0.6;
+
+			&.loading {
+				opacity: 0.2;
+				pointer-events: none;
+			}
 			
 			&.active, &:hover {
 				border: 1px solid #4e4f52;
@@ -242,7 +255,7 @@ export default {
 	.card-container {
 		@include flex-box(space-between, '', '');
 		width: 100%;
-		margin-bottom: 50px;
+		margin-bottom: 30px;
 	}
 
 	.chart-container {

@@ -2,7 +2,9 @@ const PageNotFound = () => import('@/views/PageNotFound')
 
 const Home = () => import('@/views/home/Home')
 const Login = () => import('@/views/guest/Login')
+
 const Dashboard = () => import('@/views/home/dashboard/Dashboard')
+const Skill = () => import('@/views/home/skill/Skill')
 
 export default [
 	...middleware('guest', [
@@ -32,6 +34,15 @@ export default [
 					component: Dashboard,
 					meta: {
 						header: 'dashboard'
+					}
+				},
+
+				{
+					path: '/skill',
+					name: 'skill',
+					component: Skill,
+					meta: {
+						header: 'Skill'
 					}
 				}
 			]

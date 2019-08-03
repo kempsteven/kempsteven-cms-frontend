@@ -2,7 +2,7 @@ import { getField, updateField } from 'vuex-map-fields'
 import api from '@/store/api'
 
 export const state = {
-    loading: true,
+    loading: false,
     dashboardTimeSeries: {},
     dashboardTotals: {},
 

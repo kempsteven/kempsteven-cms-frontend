@@ -41,7 +41,7 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard-card {
-    width: 30%;
+    width: 31%;
     background-color: #293243;
     box-shadow: 0px 0px 22px 3px #1B222C;
     padding: 25px 15px;

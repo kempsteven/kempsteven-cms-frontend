@@ -15,7 +15,7 @@
         <ul class="nav-list">
             <li class="nav-item" :class="{ 'active' : $route.name === 'dashboard' }">
                 <router-link class="router-link" to="/dashboard">
-                    <div class="nav-icon"/>
+                    <div class="nav-icon dashboard"/>
 
                     <span class="nav-name">
                         Dashboard
@@ -23,7 +23,17 @@
                 </router-link>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" :class="{ 'active' : $route.name === 'skill' }">
+                <router-link class="router-link" to="/skill">
+                    <div class="nav-icon skill"/>
+
+                    <span class="nav-name">
+                        Skill
+                    </span>
+                </router-link>
+            </li>
+
+            <li class="nav-item" :class="{ 'active' : $route.name === 'dashboard' }">
                 <router-link class="router-link" to="/dashboard">
                     <div class="nav-icon"/>
 
@@ -33,17 +43,7 @@
                 </router-link>
             </li>
 
-            <li class="nav-item">
-                <router-link class="router-link" to="/dashboard">
-                    <div class="nav-icon"/>
-
-                    <span class="nav-name">
-                        Dashboard
-                    </span>
-                </router-link>
-            </li>
-
-            <li class="nav-item">
+            <li class="nav-item" :class="{ 'active' : $route.name === 'dashboard' }">
                 <router-link class="router-link" to="/dashboard">
                     <div class="nav-icon"/>
 
@@ -107,7 +107,13 @@ export default {
                     color: #8ddff8;
 
                     .nav-icon {
-                        background-image: url('~@/assets/img/icon/dashboard_hover.png');
+                        &.dashboard {
+                            background-image: url('~@/assets/img/icon/dashboard_hover.png');
+                        }
+
+                        &.skill {
+                            background-image: url('~@/assets/img/icon/skill_hover.png');
+                        }
                     }
                 }
             }
@@ -119,7 +125,13 @@ export default {
                     color: #8ddff8;
 
                     .nav-icon {
-                        background-image: url('~@/assets/img/icon/dashboard_hover.png');
+                        &.dashboard {
+                            background-image: url('~@/assets/img/icon/dashboard_hover.png');
+                        }
+
+                        &.skill {
+                            background-image: url('~@/assets/img/icon/skill_hover.png');
+                        }
                     }
                 }
             }
@@ -136,7 +148,14 @@ export default {
                     margin-right: 15px;
                     background-repeat: no-repeat;
                     background-size: cover;
-                    background-image: url('~@/assets/img/icon/dashboard.png');
+
+                    &.dashboard {
+                        background-image: url('~@/assets/img/icon/dashboard.png');
+                    }
+
+                    &.skill {
+                        background-image: url('~@/assets/img/icon/skill.png');
+                    }
                 }
 
                 .nav-name {
