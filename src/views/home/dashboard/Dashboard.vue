@@ -24,6 +24,22 @@
 			>
 				30 Day
 			</span>
+
+			<span
+				class="day"
+				:class="{ 'active' : activeDay === 180, 'loading' : loading }"
+				@click="changeFilter(180)"
+			>
+				6 Months
+			</span>
+
+			<span
+				class="day"
+				:class="{ 'active' : activeDay === 360, 'loading' : loading }"
+				@click="changeFilter(360)"
+			>
+				1 Year
+			</span>
 		</div>
 
 		<div class="card-container">
@@ -47,6 +63,10 @@
 		</div>
 
 		<div class="chart-container">
+			<transition name="_transition-anim">
+				<Loading v-if="loading"/>
+			</transition>
+
 			<apexchart type=area height="450" :options="chartOptions" :series="series"/>
 		</div>
 	</div>
@@ -54,7 +74,7 @@
 
 <script>
 import { mapFields } from 'vuex-map-fields'
-import * as dashboardModel from '@/store/dashboard/model.js'
+import * as dashboard from '@/store/dashboard/app.js'
 export default {
 	data () {
 		return {
@@ -98,6 +118,10 @@ export default {
 				tooltip: {
 					enabled: true,
 					theme: true,
+					x: {
+						show: true,
+						format: 'MMM dd, yyyy HH:mm'
+					},
 				},
 
 				legend: {
@@ -162,8 +186,12 @@ export default {
 	
 	beforeCreate () {
 		if (!this.$store._modulesNamespaceMap['dashboard/']) {
-			this.$store.registerModule('dashboard', dashboardModel.default)
+			this.$store.registerModule('dashboard', dashboard.default)
 		}
+	},
+
+	destroyed () {
+		this.activeDay = 30
 	},
 
 	methods: {
@@ -193,7 +221,7 @@ export default {
 
 				this.series[2].data.push({
 					x: new Date(data.until.replace(/-/g, '-')),
-					y: this.setBandwidth(data.bandwidth.all)
+					y: (data.bandwidth.all * 0.000001).toFixed(0)
 				})
 			})
 		},
@@ -201,7 +229,7 @@ export default {
 		setBandwidth (bandwidth) {
 			if (!bandwidth) return
 
-			return `${(bandwidth * 0.000001).toFixed(2)} MB`
+			return `${(bandwidth * 0.000001).toFixed(0)} MB`
 		},
 
 		changeFilter (day) {
@@ -212,7 +240,8 @@ export default {
 	},
 
 	components: {
-		DashboardCard: () => import('@/components/dashboard/DashboardCard.vue')
+		DashboardCard: () => import('@/components/dashboard/DashboardCard.vue'),
+		Loading: () => import('@/components/global/Loading.vue'),
 	}
 }
 </script>
@@ -263,6 +292,8 @@ export default {
 		background-color: #293243;
 		box-shadow: 0px 0px 22px 3px #1B222C;
 		padding: 25px 30px 5px 15px;
+		position: relative;
+		// overflow: hidden;
 	}
 }
 

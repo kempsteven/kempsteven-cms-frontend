@@ -5,7 +5,7 @@
 		</transition>
 
 		<transition name="_transition-anim">
-			<Alerts v-if="modalName === 'alert-modal'"/>
+			<Alerts v-if="modalName.includes('alert-modal')"/>
 		</transition>
 	</main>
 </template>
@@ -17,6 +17,7 @@ export default {
             'modalName',
         ]),
 	},
+	
 	components: {
 		Alerts: () => import('@/components/global/Alerts.vue')
 	},

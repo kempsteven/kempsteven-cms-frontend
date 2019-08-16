@@ -4,8 +4,12 @@
 
 		<div class="main-section">
 			<HeaderLayout />
-
-			<router-view class="router-container"/>
+			
+			<div class="route-container">
+				<transition name="_transition-anim">
+					<router-view class="router-container"/>
+				</transition>
+			</div>
 		</div>
 	</div>
 </template>
@@ -34,10 +38,15 @@ export default {
 		height: 100%;
 		overflow: auto;
 
-		.router-container {
-			padding: 0 25px;
+		.route-container {
+			position: relative;
+			margin: 30px auto 0 auto;
 			width: 80%;
-			margin: 15px auto 0 auto;
+
+			.router-container {
+				padding: 0 25px;
+				width: 100%;
+			}
 		}
 	}
 }

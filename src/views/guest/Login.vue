@@ -51,15 +51,14 @@
                 >
             </section>
 
-            <button type="submit" :class="{'disabled' : loading}">
+            <button type="submit" :disabled="loading">
                 {{ loading ? 'Loading' : 'Login' }}
             </button>
         </form>
 	</div>
 </template>
 <script>
-import { mapFields } from 'vuex-map-fields';
-import * as dashboardModel from '@/store/dashboard/model.js'
+import { mapFields } from 'vuex-map-fields'
 export default {
     computed: {
         // The `mapFields` function takes an array of
@@ -73,18 +72,6 @@ export default {
         ]),
     },
 
-    data () {
-        return {
-            // isVideoLoaded: false
-        }
-    },
-
-    beforeCreate () {
-		if (!this.$store._modulesNamespaceMap['dashboard/']) {
-			this.$store.registerModule('dashboard', dashboardModel.default)
-		}
-    },
-
     methods: {
         async login () {
             if (this.loading) return
@@ -93,7 +80,6 @@ export default {
         },
 
         videoHasBuffered () {
-            // this.isVideoLoaded = true
             this.$refs.video.play()
         }
     }
@@ -233,11 +219,6 @@ export default {
 
             &:hover {
                 background-color: #72a6f7;
-            }
-
-            &.disabled {
-                opacity: 0.8;
-                pointer-events: none;
             }
         }
     }

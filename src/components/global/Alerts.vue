@@ -5,6 +5,7 @@
             class="modal-wrapper"
             :class="{
                 'error' : modalType === 'error',
+                'warning' : modalType === 'warning',
                 'success' : modalType === 'success'
             }"
         >
@@ -19,11 +20,11 @@
             </div>
 
             <div class="btn-container">
-                <button class="cancel" v-if="modalType === 'warning'" @click="closeModal()">
+                <button class="cancel" v-if="modalType === 'warning'" @click="close()">
                     Cancel
                 </button>
 
-                <button class="confirm" @click="closeModal()">
+                <button class="confirm" @click="confirm()">
                     Confirm
                 </button>
             </div>
@@ -38,19 +39,29 @@ export default {
             'modalType',
             'modalTitle',
             'modalDesc',
+            'storeAction',
+            'storePayload'
         ]),
     },
     methods: {
         close () {
-            this.$emit('closeModal')
+            this.$store.dispatch('modal/closeModal')
         },
 
-        closeModal () {
-            this.$store.commit('modal/toggleModal', {
+        async confirm () {
+            if (this.modalType === 'warning') {
+                // if modal type warning, on confirm
+                // call store action given from the arguments on toggleModal
+                this.$store.dispatch(this.storeAction, this.storePayload)
+            }
+
+            await this.$store.commit('modal/toggleModal', {
                 modalName: '',
                 modalType: '',
                 modalTitle: '',
                 modalDesc: '',
+                storeAction: '',
+                storePayload: ''
             })
         }
     },
@@ -62,7 +73,7 @@ export default {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background: rgba($color: #000000, $alpha: 0.4);
+    background: rgba(0, 0, 0, 0.4);
     top: 0;
     left: 0;
     z-index: 1000;
@@ -73,7 +84,7 @@ export default {
         padding: 25px 15px;
         border-radius: 5px;
 
-        &.confirm {
+        &.confirm, &.success {
             background-color: #5dd47b;
             color: #fff;
 
@@ -176,7 +187,6 @@ export default {
                     background: transparent;
                     color: #fff;
                     font-size: 18px;
-                    box-shadow: none;
 
                     &:hover {
                         box-shadow: 0px 0px 15px 5px rgba(255,255,255,0.24);
@@ -187,7 +197,6 @@ export default {
                     border: 2px solid #fff;
                     background: #fff;
                     font-size: 18px;
-                    box-shadow: none;
 
                     &:hover {
                         box-shadow: 0px 0px 15px 5px rgba(255,255,255,0.24);

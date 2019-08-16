@@ -17,18 +17,68 @@ html, body {
 
 button {
 	cursor: pointer;
+	border: 0;
+	border-radius: 3px;
+	outline: none;
+	transition: 0.3s;
+
+	&:disabled {
+		opacity: 0.8;
+		pointer-events: none;
+	}
+
+	&._primary {
+		padding: 10px 25px;
+		background: #759bd8;
+		color: #fff;
+
+		&:hover {
+			background: darken(#759bd8, 5%);
+		}
+	}
+
+	&._secondary {
+		padding: 10px 25px;
+		border: 1px solid #fff;
+		background: transparent;
+		color: #fff;
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.2);
+		}
+	}
 }
 
 ul {
 	padding: 0;
+	list-style: none;
 }
 
 span {
 	display: inline-block;
 }
 
+input {
+	outline: none;
+
+	&::-webkit-outer-spin-button,
+	&::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+	}
+
+	&[type=number] {
+		-moz-appearance:textfield; /* Firefox */
+	}
+}
+
+h3 {
+	margin: 0;
+	padding: 0;
+}
+
 ._transition-anim-enter-active, ._transition-anim-leave-active {
-	transition: 0.3s ease;
+	transition: 0.5s ease;
 	position: absolute;
 	top: 0;
 	left: 0;

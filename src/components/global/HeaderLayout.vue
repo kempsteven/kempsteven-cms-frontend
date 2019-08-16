@@ -45,7 +45,6 @@ export default {
 <style lang="scss" scoped>
 .header {
     width: 100%;
-    padding: 15px 0;
 
     @include flex-box(space-between, center, '');
 
