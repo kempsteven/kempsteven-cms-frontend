@@ -8,7 +8,7 @@ export const state = {
         keyword: ''
     },
 
-    skillList: {},
+    skillList: [],
 
     // id and oldSkillImgPublicId
     // is for edit skill only
@@ -149,7 +149,7 @@ export const actions = {
             modalTitle: 'Success',
             modalDesc: 'You have successfully updated a skill!',
         }, { root: true })
-        
+
         state.skillList = data.list
         state.createLoading = false
     }

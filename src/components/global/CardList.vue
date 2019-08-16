@@ -66,8 +66,8 @@ export default {
         },
 
         list: {
-            type: Object | Array,
-            default:() => {}
+            type: Array,
+            default: () => []
         },
 
         loading: {
