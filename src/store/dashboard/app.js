@@ -12,33 +12,43 @@ export const state = {
 export const actions = {
     async getDashboardData () {
         state.loading = true
+        
+        try {
+            const { status, data } = await api('get', `/dashboard/getDashboardData?since=${state.activeDay}`)
 
-        const { status, data } = await api('get', `/dashboard/getDashboardData?since=${state.activeDay}`)
+            if (status !== 200) {
+                commit('modal/toggleModal', {
+                    modalName: 'alert-modal',
+                    modalType: 'error',
+                    modalTitle: 'Oooops!',
+                    modalDesc: 'Something went wrong! Please try and refresh the page :(',
+                }, { root: true })
 
-        if (status !== 200) {
+                state.loading = false
+                return
+            }
+
+            state.dashboardTimeSeries = data.result.timeseries
+
+            const { uniques, requests, bandwidth } = data.result.totals
+
+            state.dashboardTotals = {
+                uniques: uniques.all,
+                requests: requests.all,
+                bandwidth: bandwidth.all,
+            }
+        }
+        catch (err) {
             commit('modal/toggleModal', {
                 modalName: 'alert-modal',
                 modalType: 'error',
                 modalTitle: 'Oooops!',
                 modalDesc: 'Something went wrong! Please try and refresh the page :(',
             }, { root: true })
-
+        }
+        finally {
             state.loading = false
-            return
         }
-
-        state.dashboardTimeSeries = data.result.timeseries
-
-        const { uniques, requests, bandwidth } = data.result.totals
-
-        state.dashboardTotals = {
-            uniques: uniques.all,
-            requests: requests.all,
-            bandwidth: bandwidth.all,
-        }
-        
-
-        state.loading = false
     }
 }
 
