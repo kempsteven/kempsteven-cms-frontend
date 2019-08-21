@@ -7,14 +7,13 @@
             :list="skillList"
             :loading="loading"
             v-model="params.keyword"
+
             @create="createSkill()"
             @delete="deleteSkill($event)"
             @edit="editSkill($event)"
         />
 
         <transition name="_transition-anim">
-            <!-- @bgClick="closeModal()" -->
-
             <Modal
                 v-if="modalName.includes('create-skill-modal')"
             >

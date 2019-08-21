@@ -33,12 +33,12 @@
                 </router-link>
             </li>
 
-            <li class="nav-item" :class="{ 'active' : $route.name === 'dashboard' }">
-                <router-link class="router-link" to="/dashboard">
-                    <div class="nav-icon"/>
+            <li class="nav-item" :class="{ 'active' : $route.name === 'portfolio' }">
+                <router-link class="router-link" to="/portfolio">
+                    <div class="nav-icon portfolio"/>
 
                     <span class="nav-name">
-                        Dashboard
+                        Portfolio
                     </span>
                 </router-link>
             </li>
@@ -114,6 +114,10 @@ export default {
                         &.skill {
                             background-image: url('~@/assets/img/icon/skill_hover.png');
                         }
+
+                        &.portfolio {
+                            background-image: url('~@/assets/img/icon/portfolio_hover.png');
+                        }
                     }
                 }
             }
@@ -131,6 +135,10 @@ export default {
 
                         &.skill {
                             background-image: url('~@/assets/img/icon/skill_hover.png');
+                        }
+
+                        &.portfolio {
+                            background-image: url('~@/assets/img/icon/portfolio_hover.png');
                         }
                     }
                 }
@@ -155,6 +163,10 @@ export default {
 
                     &.skill {
                         background-image: url('~@/assets/img/icon/skill.png');
+                    }
+
+                    &.portfolio {
+                        background-image: url('~@/assets/img/icon/portfolio.png');
                     }
                 }
 

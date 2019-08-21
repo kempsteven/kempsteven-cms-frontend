@@ -5,6 +5,7 @@ const Login = () => import('@/views/guest/Login')
 
 const Dashboard = () => import('@/views/home/dashboard/Dashboard')
 const Skill = () => import('@/views/home/skill/Skill')
+const Portfolio = () => import('@/views/home/portfolio/Portfolio')
 
 export default [
 	...middleware('guest', [
@@ -43,6 +44,15 @@ export default [
 					component: Skill,
 					meta: {
 						header: 'Skill'
+					}
+				},
+
+				{
+					path: '/portfolio',
+					name: 'portfolio',
+					component: Portfolio,
+					meta: {
+						header: 'Portfolio'
 					}
 				}
 			]
