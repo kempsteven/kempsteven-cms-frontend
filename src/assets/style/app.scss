@@ -13,6 +13,22 @@ html, body {
 	word-wrap: break-word;
 	user-select: none;
 	font-family: 'Lato', sans-serif;
+
+	&::-webkit-scrollbar-track { 
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar {  
+        width: 5px;
+        height: 5px;
+        background-color: #979CAC;
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb { 
+        border-radius: 10px;
+        background-color: #979CAC;
+    }
 }
 
 button {

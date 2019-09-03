@@ -38,7 +38,7 @@ export const state = {
 }
 
 export const actions = {
-    async getSkillList ({state}, payload) {
+    async getSkillList ({ state }, payload) {
         state.loading = true
 
         const { data } = await api('get', `/skill/get-skills${payload}`)
@@ -48,7 +48,7 @@ export const actions = {
         state.loading = false
     },
 
-    async createSkill ({state, commit, dispatch}) {
+    async createSkill ({ state, commit, dispatch }) {
         state.createLoading = true
 
         const form = new FormData()
@@ -63,12 +63,7 @@ export const actions = {
         await dispatch('modal/closeModal', {}, { root: true })
 
         if (status !== 200) {
-            commit('modal/toggleModal', {
-                modalName: 'alert-modal',
-                modalType: 'error',
-                modalTitle: 'Oooops!',
-                modalDesc: 'Something went wrong!',
-            }, { root: true })
+            commit('modal/errorModal', { root: true })
             
             state.createLoading = false
             return
@@ -94,12 +89,7 @@ export const actions = {
         const { status, data } = await api('delete', `/skill/delete-skills/${id}`, { data: form })
         
         if (status !== 200) {
-            commit('modal/toggleModal', {
-                modalName: 'alert-modal',
-                modalType: 'error',
-                modalTitle: 'Oooops!',
-                modalDesc: 'Something went wrong!',
-            }, { root: true })
+            commit('modal/errorModal', { root: true })
 
             state.loading = false
             return
@@ -132,12 +122,7 @@ export const actions = {
         await dispatch('modal/closeModal', {}, { root: true })
 
         if (status !== 200) {
-            commit('modal/toggleModal', {
-                modalName: 'alert-modal',
-                modalType: 'error',
-                modalTitle: 'Oooops!',
-                modalDesc: 'Something went wrong!',
-            }, { root: true })
+            commit('modal/errorModal', { root: true })
 
             state.createLoading = false
             return
@@ -159,12 +144,15 @@ export const mutations = {
     updateField,
 
     clearForm () {
-        state.skillForm.id = ''
-        state.skillForm.oldSkillImgPublicId = ''
+        state.skillForm = {
+            id: '',
+            oldSkillImgPublicId: '',
 
-        state.skillForm.skillName = ''
-        state.skillForm.skillLevel = ''
-        state.skillForm.skillImage = null
+            skillName: '',
+            skillLevel: '',
+            skillImage: null
+        }
+
         state.formHasChanged = false
 
         state.isEditSkill = false
@@ -184,7 +172,6 @@ export const mutations = {
                 return
             }
         }
-
     }
 }
 

@@ -10,7 +10,7 @@ export const state = {
 }
 
 export const actions = {
-    async getDashboardData () {
+    async getDashboardData ({ commit }) {
         state.loading = true
         
         try {

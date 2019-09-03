@@ -8,10 +8,16 @@
             :loading="loading"
             v-model="params.keyword"
 
-            @create="createSkill()"
-            @delete="deleteSkill($event)"
+            @create="createPortfolio()"
+            @delete="deletePortfolio($event)"
             @edit="editSkill($event)"
         />
+
+        <transition name="_transition-anim">
+            <Modal class="create-portfolio" v-if="modalName.includes('create-portfolio-modal')">
+                <PortfolioForm slot="content"/>
+            </Modal>
+        </transition>
     </div>
 </template>
 
@@ -70,12 +76,34 @@ export default {
             }
 
 			await this.$store.dispatch('portfolio/getPortfolioList', urlQuery)
+        },
+
+        createPortfolio () {
+            this.$store.commit('modal/toggleModal', {
+                modalName: 'create-portfolio-modal'
+            })
+        },
+
+        deletePortfolio ({ _id, portfolioDesktopImg, portfolioMobileImg }) {
+            this.$store.commit('modal/toggleModal', {
+                modalName: 'alert-modal',
+                modalType: 'warning',
+                modalTitle: 'Warning',
+                modalDesc: 'Are you sure you want to delete this portfolio?',
+                storeAction: 'portfolio/deletePortfolio',
+                storePayload: {
+                    id: _id,
+                    oldPortfolioDesktopImgPublicId: portfolioDesktopImg.publicId,
+                    oldPortfolioMobileImgPublicId: portfolioMobileImg.publicId,
+                }
+            })
         }
     },
 
     components: {
         CardList: () => import('@/components/global/CardList.vue'),
         Modal: () => import('@/components/global/Modal.vue'),
+        PortfolioForm: () => import('@/components/portfolio/PortfolioForm.vue'),
     },
 }
 </script>
@@ -83,5 +111,11 @@ export default {
 <style lang="scss" scoped>
 .portfolio {
     width: 100%;
+
+    .create-portfolio {
+        /deep/ .modal-container {
+            padding: 15px 10px;
+        }
+    }
 }
 </style>

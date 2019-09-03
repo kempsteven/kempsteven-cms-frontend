@@ -19,7 +19,16 @@ export const actions = {
             storeAction: '',
             storePayload: ''
         })
-    }
+    },
+
+    errorModal({ commit }, payload) {
+        commit('toggleModal', {
+            modalName: 'alert-modal',
+            modalType: 'error',
+            modalTitle: 'Oooops!',
+            modalDesc: payload || 'Something went wrong!',
+        })
+    },
 }
 
 export const mutations = {

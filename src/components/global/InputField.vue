@@ -1,9 +1,10 @@
 <template>
     <div class="input-field">
-        <label class="input-title">
+        <label class="input-title" v-if="label">
             {{ label }}
         </label>
 
+        <!-- For Normal Input Field -->
         <input
             class="input-box"
             v-bind="$attrs"
@@ -13,9 +14,20 @@
             v-if="inputType === ''"
         >
 
+        <!-- For Text Field Input Type -->
+        <textarea
+            class="input-textarea"
+            v-bind="$attrs"
+            :value="value"
+            @input="$emit('input', $event.target.value)"
+            @keydown="checkValue($event)"
+            v-if="inputType === 'textarea'"
+        />
+
+         <!-- For File Input Type -->
         <label
             class="input-file"
-            for="input-file"
+            :for="uniqueId"
             ref="inputFileLabel"
             v-if="inputType === 'file'"
         >
@@ -23,7 +35,7 @@
 
             <input
                 v-bind="$attrs"
-                id="input-file"
+                :id="uniqueId"
                 class="input-box"
                 @input="inputImage($event)"
             >
@@ -36,7 +48,7 @@ export default {
     props: {
         label: {
             type: String,
-            default: 'Input Label'
+            default: ''
         },
 
         regex: {
@@ -54,13 +66,24 @@ export default {
         }
     },
 
+    data() {
+        return {
+            uniqueId: 0
+        }
+    },
+
     watch: {
         value (val) {
             if (val === null && this.inputType === 'file') {
                 this.$refs.inputFileLabel.style.backgroundImage = ``
+                
                 this.$refs.inputFileLabel.style.color = `#fff`
             }
         }
+    },
+
+    created () {
+        this.generateUniqueId()
     },
 
     mounted () {
@@ -68,6 +91,10 @@ export default {
     },
 
     methods: {
+        generateUniqueId () {
+            this.uniqueId = Math.random().toString(36).substr(2, 9)
+        },
+
         setInputValue () {
             if (this.inputType === 'file' && this.value) {
                 const reader = new FileReader()
@@ -154,6 +181,19 @@ export default {
         width: 100%;
         border: 1px solid #fff;
         border-radius: 2px;
+
+        &::placeholder {
+            color: #c3c3c3;
+        }
+    }
+
+    .input-textarea {
+        padding: 8px 10px;
+        width: 100%;
+        border: 1px solid #fff;
+        border-radius: 2px;
+        resize: none;
+        height: 120px;
 
         &::placeholder {
             color: #c3c3c3;
