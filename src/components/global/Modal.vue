@@ -24,6 +24,8 @@ export default {
     justify-content: center;
     align-items: center;
     z-index: +99;
+    width: 100vw;
+    height: 100vh;
 
     .modal-container {
         background-color: #293243;

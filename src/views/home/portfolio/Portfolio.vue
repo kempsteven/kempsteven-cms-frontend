@@ -13,7 +13,7 @@
             @edit="editSkill($event)"
         />
 
-        <transition name="_transition-anim">
+        <transition name="_transition-no-pos">
             <Modal class="create-portfolio" v-if="modalName.includes('create-portfolio-modal')">
                 <PortfolioForm slot="content"/>
             </Modal>

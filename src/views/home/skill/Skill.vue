@@ -13,7 +13,7 @@
             @edit="editSkill($event)"
         />
 
-        <transition name="_transition-anim">
+        <transition name="_transition-no-pos">
             <Modal
                 v-if="modalName.includes('create-skill-modal')"
             >
