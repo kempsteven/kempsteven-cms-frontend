@@ -13,6 +13,23 @@ export const state = {
     createLoading: false,
 
     portfolioForm: {
+        id: '',
+        oldPortfolioDesktopImgPublicId: '',
+        oldPortfolioMobileImgPublicId: '',
+
+        portfolioTitle: '',
+        portfolioDescription: '',
+        portfolioTechnologies: [''],
+        portfolioUrl: '',
+        portfolioDesktopImg: '',
+        portfolioMobileImg: ''
+    },
+
+    portfolioFormChangeChecker: {
+        id: '',
+        oldPortfolioDesktopImgPublicId: '',
+        oldPortfolioMobileImgPublicId: '',
+
         portfolioTitle: '',
         portfolioDescription: '',
         portfolioTechnologies: [''],
@@ -23,7 +40,9 @@ export const state = {
 
     isEditPortfolio: false,
 
-    isFormComplete: false
+    isFormComplete: false,
+
+    formHasChanged: false
 }
 
 export const actions = {
@@ -38,16 +57,37 @@ export const actions = {
     },
 
     async createPortfolio ({ state, commit, dispatch }) {
+        const {
+            portfolioTitle,
+            portfolioDescription,
+            portfolioTechnologies,
+            portfolioUrl,
+            portfolioDesktopImg,
+            portfolioMobileImg
+        } = state.portfolioForm
+
+        const regEx = /[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)?/gi
+
+        if (portfolioUrl && !portfolioUrl.match(regEx)) {
+            dispatch(
+                'modal/errorModal',
+                'Invalid URL!',
+                { root: true }
+            )
+
+            return
+        }
+
         state.createLoading = true
 
         const form = new FormData()
 
-        form.append('portfolioTitle', state.portfolioForm.portfolioTitle)
-        form.append('portfolioDescription', state.portfolioForm.portfolioDescription)
-        form.append('portfolioTechnologies', state.portfolioForm.portfolioTechnologies.join(','))
-        form.append('portfolioUrl', state.portfolioForm.portfolioUrl)
-        form.append('portfolioDesktopImg', state.portfolioForm.portfolioDesktopImg)
-        form.append('portfolioMobileImg', state.portfolioForm.portfolioMobileImg)
+        form.append('portfolioTitle', portfolioTitle)
+        form.append('portfolioDescription', portfolioDescription)
+        form.append('portfolioTechnologies', portfolioTechnologies.join(','))
+        form.append('portfolioUrl', portfolioUrl)
+        form.append('portfolioDesktopImg', portfolioDesktopImg)
+        form.append('portfolioMobileImg', portfolioMobileImg)
 
         const { status, data } = await api('post', `/portfolio/add-portfolio`, form)
 
@@ -103,7 +143,68 @@ export const actions = {
 
         state.portfolioList = data.list
         state.loading = false
-    } 
+    },
+
+    async editPortfolio ({ state, commit, dispatch }) {
+        const {
+            id,
+            oldPortfolioDesktopImgPublicId,
+            oldPortfolioMobileImgPublicId,
+
+            portfolioTitle,
+            portfolioDescription,
+            portfolioTechnologies,
+            portfolioUrl,
+            portfolioDesktopImg,
+            portfolioMobileImg
+        } = state.portfolioForm
+
+        const regEx = /[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)?/gi
+
+        if (portfolioUrl && !portfolioUrl.match(regEx)) {
+            dispatch(
+                'modal/errorModal',
+                'Invalid URL!',
+                { root: true }
+            )
+
+            return
+        }
+
+        state.createLoading = true
+
+        const form = new FormData()
+
+        form.append('portfolioTitle', portfolioTitle)
+        form.append('portfolioDescription', portfolioDescription)
+        form.append('portfolioTechnologies', portfolioTechnologies)
+        form.append('portfolioUrl', portfolioUrl)
+        form.append('oldPortfolioDesktopImgPublicId', oldPortfolioDesktopImgPublicId)
+        form.append('oldPortfolioMobileImgPublicId', oldPortfolioMobileImgPublicId)
+        form.append('portfolioDesktopImg', portfolioDesktopImg)
+        form.append('portfolioMobileImg', portfolioMobileImg)
+
+        const { status, data } = await api('patch', `/portfolio/edit-portfolio/${id}`, form)
+
+        await dispatch('modal/closeModal', {}, { root: true })
+
+        if (status !== 200) {
+            commit('modal/errorModal', { root: true })
+
+            state.createLoading = false
+            return
+        }
+
+        commit('modal/toggleModal', {
+            modalName: 'alert-modal',
+            modalType: 'success',
+            modalTitle: 'Success',
+            modalDesc: 'You have successfully updated a portfolio!',
+        }, { root: true })
+
+        state.portfolioList = data.list
+        state.createLoading = false
+    }
 }
 
 export const mutations = {
@@ -118,12 +219,26 @@ export const mutations = {
             portfolioDesktopImg: '',
             portfolioMobileImg: ''
         }
+
+        state.formHasChanged = false
+
+        state.isEditPortfolio = false
     },
 
     setFormChangesChecker () {
+        state.portfolioFormChangeChecker = {
+            ...state.portfolioForm
+        }
     },
 
     checkFormChanges () {
+        for (let item of Object.keys(state.portfolioForm)) {
+            if (state.portfolioForm[item] !== state.portfolioFormChangeChecker[item]) {
+                state.formHasChanged = true
+
+                return
+            }
+        }
     },
 
     checkFormComplete() {

@@ -131,11 +131,12 @@ export default {
         },
 
         async editSkill ({ _id, skillName, skillLevel, skillImg }) {
+            this.isEditSkill = true
+            
             this.id = _id
             this.skillName = skillName
             this.skillLevel = skillLevel
             this.oldSkillImgPublicId = skillImg.publicId
-            this.isEditSkill = true
             // this.skillImage = skillImg.url
 
             // convert remote image to blob

@@ -92,9 +92,9 @@
             <button
                 class="_primary"
                 :disabled="createLoading"
-                @click="isEditPortfolio ? editSkill() : createPortfolio()"
+                @click="isEditPortfolio ? editPortfolio() : createPortfolio()"
             >
-                {{ createLoading ? 'Loading...' : isEditPortfolio ? 'Update Skill' : 'Create Skill' }}
+                {{ createLoading ? 'Loading...' : isEditPortfolio ? 'Update Portfolio' : 'Create Portfolio' }}
             </button>
         </div>
     </div>
@@ -115,8 +115,13 @@ export default {
 
             'createLoading',
             'isEditPortfolio',
-            'isFormComplete'
+            'isFormComplete',
+            'formHasChanged'
         ]),
+    },
+
+    mounted () {
+        this.$store.commit('portfolio/setFormChangesChecker')
     },
 
     destroyed () {
@@ -139,16 +144,49 @@ export default {
             this.$store.dispatch('portfolio/createPortfolio')
         },
 
+        async editPortfolio () {
+            await this.$store.commit('portfolio/checkFormChanges')
+            
+            if (!this.formHasChanged) return
+
+            await this.$store.commit('portfolio/checkFormComplete')
+
+            if (!this.isFormComplete) {
+                this.$store.dispatch(
+                    'modal/errorModal',
+                    'Please fill up all fields!'
+                )
+
+                return
+            }
+
+            this.$store.dispatch('portfolio/editPortfolio')
+        },
+
+        async closeCreatePortfolio () {
+            await this.$store.commit('portfolio/checkFormChanges')
+
+            if (!this.formHasChanged) {
+                this.$store.dispatch('modal/closeModal')
+
+                return
+            }
+
+            this.$store.commit('modal/toggleModal', {
+                modalName: 'alert-modal',
+                modalType: 'warning',
+                modalTitle: 'Warning',
+                modalDesc: 'Are you sure you want to close this form?',
+                storeAction: 'modal/closeModal',
+            })
+        },
+
         addTechnology () {
             this.portfolioTechnologies.push('')
         },
 
         removeTechnology (key) {
             this.portfolioTechnologies.splice(key, 1)
-        },
-
-        closeCreatePortfolio () {
-            this.$store.dispatch('modal/closeModal')
         }
     },
 

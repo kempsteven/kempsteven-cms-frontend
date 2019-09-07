@@ -51,10 +51,16 @@ export const actions = {
     async createSkill ({ state, commit, dispatch }) {
         state.createLoading = true
 
+        const {
+            skillName,
+            skillLevel,
+            skillImage
+        } = state.skillForm
+
         const form = new FormData()
-        form.append('skillName', state.skillForm.skillName)
-        form.append('skillLevel', state.skillForm.skillLevel)
-        form.append('skillImg', state.skillForm.skillImage)
+        form.append('skillName', skillName)
+        form.append('skillLevel', skillLevel)
+        form.append('skillImg', skillImage)
 
         const { status, data } = await api('post', `/skill/add-skills`, form)
         
@@ -108,16 +114,22 @@ export const actions = {
 
     async editSkill ({ state, commit, dispatch } ) {
         state.createLoading = true
+        
+        const {
+            id,
+            skillName,
+            skillLevel,
+            skillImage,
+            oldSkillImgPublicId
+        } = state.skillForm
 
         const form = new FormData()
-        const skillForm = state.skillForm
+        form.append('skillName', skillName)
+        form.append('skillLevel', skillLevel)
+        form.append('skillImg', skillImage)
+        form.append('oldSkillImgPublicId', oldSkillImgPublicId)
 
-        form.append('skillName', skillForm.skillName)
-        form.append('skillLevel', skillForm.skillLevel)
-        form.append('skillImg', skillForm.skillImage)
-        form.append('oldSkillImgPublicId', skillForm.oldSkillImgPublicId)
-
-        const { status, data } = await api('patch', `/skill/edit-skills/${skillForm.id}`, form)
+        const { status, data } = await api('patch', `/skill/edit-skills/${id}`, form)
         
         await dispatch('modal/closeModal', {}, { root: true })
 
