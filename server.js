@@ -14,6 +14,10 @@ app.use(history({
     verbose: true
 }));
 
+app.get('/', function (req, res) {
+    res.render(path.join(__dirname + '/dist/index.html'));
+});
+
 const port = process.env.PORT || 5000
 app.listen(port)
 console.log('server started in port ' + port)
