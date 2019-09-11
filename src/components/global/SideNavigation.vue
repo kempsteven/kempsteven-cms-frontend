@@ -100,7 +100,33 @@ export default {
             border-left: 5px solid transparent;
             transition: 0.2s;
 
-            &:hover, &.active {
+            &.active {
+                border-left: 4px solid #8ddff8;
+
+                .router-link {
+                    color: #8ddff8;
+
+                    .nav-icon {
+                        &.dashboard {
+                            background-image: url('~@/assets/img/icon/dashboard_hover.png');
+                        }
+
+                        &.skill {
+                            background-image: url('~@/assets/img/icon/skill_hover.png');
+                        }
+
+                        &.portfolio {
+                            background-image: url('~@/assets/img/icon/portfolio_hover.png');
+                        }
+
+                        &.education {
+                            background-image: url('~@/assets/img/icon/education_hover.png');
+                        }
+                    }
+                }
+            }
+
+            &:hover {
                 border-left: 4px solid #8ddff8;
 
                 .router-link {
