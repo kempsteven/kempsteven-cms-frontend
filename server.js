@@ -4,11 +4,6 @@ const history = require('connect-history-api-fallback');
 
 app = express()
 
-app.use(history({
-    disableDotRule: true,
-    verbose: true
-}));
-
 app.use(serveStatic(__dirname + "/dist"))
 
 
