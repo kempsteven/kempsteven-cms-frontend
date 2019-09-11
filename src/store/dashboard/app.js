@@ -1,18 +1,21 @@
 import { getField, updateField } from 'vuex-map-fields'
 import api from '@/store/api'
+import * as countryCode from './countryCode.js'
 
 export const state = {
     loading: false,
     dashboardTimeSeries: {},
     dashboardTotals: {},
 
-    activeDay: 30
+    activeDay: 30,
+
+    dashboardCountryTraffic: []
 }
 
 export const actions = {
     async getDashboardData ({ commit }) {
         state.loading = true
-        
+
         try {
             const { status, data } = await api('get', `/dashboard/getDashboardData?since=${state.activeDay}`)
 
@@ -37,6 +40,13 @@ export const actions = {
                 requests: requests.all,
                 bandwidth: bandwidth.all,
             }
+
+            state.dashboardCountryTraffic = Object.keys(requests.country).map(country => {
+                return {
+                    country: countryCode.default[country] || 'Unknown states, Other entities or Organizations',
+                    traffic: requests.country[country]
+                }
+            }).sort((a, b) => b.traffic - a.traffic)
         }
         catch (err) {
             commit('modal/toggleModal', {

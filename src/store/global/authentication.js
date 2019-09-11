@@ -44,12 +44,12 @@ export const actions = {
         router.push('/dashboard')
     },
 
-    async logOut({ commit }) {
+    async logOut() {
         state.isLoggedIn = false
         state.token = ''
         cookies.remove('token')
-
         router.push('/login')
+        location.reload()
     },
 
     async checkToken () {

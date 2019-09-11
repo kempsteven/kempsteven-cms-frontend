@@ -34,7 +34,8 @@ export const state = {
 
     formHasChanged: false,
 
-    isEditSkill: false
+    isEditSkill: false,
+    isFormComplete: false
 }
 
 export const actions = {
@@ -184,6 +185,20 @@ export const mutations = {
                 return
             }
         }
+    },
+
+    checkFormComplete () {
+        if (
+            state.skillForm.skillName === '' ||
+            state.skillForm.skillLevel === '' ||
+            state.skillForm.skillImage === null
+        ) {
+            state.isFormComplete = false
+
+            return
+        }
+
+        state.isFormComplete = true
     }
 }
 

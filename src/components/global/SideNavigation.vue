@@ -43,12 +43,12 @@
                 </router-link>
             </li>
 
-            <li class="nav-item" :class="{ 'active' : $route.name === 'dashboard' }">
-                <router-link class="router-link" to="/dashboard">
-                    <div class="nav-icon"/>
+            <li class="nav-item" :class="{ 'active' : $route.name === 'education' }">
+                <router-link class="router-link" to="/education">
+                    <div class="nav-icon education"/>
 
                     <span class="nav-name">
-                        Dashboard
+                        Education
                     </span>
                 </router-link>
             </li>
@@ -100,7 +100,7 @@ export default {
             border-left: 5px solid transparent;
             transition: 0.2s;
 
-            &.active {
+            &:hover, &.active {
                 border-left: 4px solid #8ddff8;
 
                 .router-link {
@@ -118,27 +118,9 @@ export default {
                         &.portfolio {
                             background-image: url('~@/assets/img/icon/portfolio_hover.png');
                         }
-                    }
-                }
-            }
 
-            &:hover {
-                 border-left: 4px solid #8ddff8;
-
-                .router-link {
-                    color: #8ddff8;
-
-                    .nav-icon {
-                        &.dashboard {
-                            background-image: url('~@/assets/img/icon/dashboard_hover.png');
-                        }
-
-                        &.skill {
-                            background-image: url('~@/assets/img/icon/skill_hover.png');
-                        }
-
-                        &.portfolio {
-                            background-image: url('~@/assets/img/icon/portfolio_hover.png');
+                        &.education {
+                            background-image: url('~@/assets/img/icon/education_hover.png');
                         }
                     }
                 }
@@ -167,6 +149,10 @@ export default {
 
                     &.portfolio {
                         background-image: url('~@/assets/img/icon/portfolio.png');
+                    }
+
+                    &.education {
+                        background-image: url('~@/assets/img/icon/education.png');
                     }
                 }
 

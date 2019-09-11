@@ -69,6 +69,8 @@
 
 			<apexchart type=area height="450" :options="chartOptions" :series="series"/>
 		</div>
+
+		<DashboardTraffic />
 	</div>
 </template>
 
@@ -173,6 +175,7 @@ export default {
 			'loading',
 			'dashboardTotals',
 			'dashboardTimeSeries',
+			'dashboardCountryTraffic',
 			'activeDay'
 		]),
 	},
@@ -241,6 +244,7 @@ export default {
 
 	components: {
 		DashboardCard: () => import('@/components/dashboard/DashboardCard.vue'),
+		DashboardTraffic: () => import('@/components/dashboard/DashboardTraffic.vue'),
 		Loading: () => import('@/components/global/Loading.vue'),
 	}
 }

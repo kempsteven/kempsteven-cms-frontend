@@ -1,18 +1,22 @@
 <template>
-    <div class="loading-container">
+    <div class="loading-container" :style="`width: ${width}`">
         <div class="lds-dual-ring" />
     </div>
 </template>
 
 <script>
     export default {
-        
+        props: {
+            width: {
+                type: String,
+                default: '100%'
+            }
+        }
     }
 </script>
 
 <style lang="scss" scoped>
 .loading-container {
-    width: 100%;
     height: 100%;
     min-height: 450px;
     position: absolute;

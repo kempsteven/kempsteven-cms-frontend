@@ -59,7 +59,8 @@ export default {
             'skillForm.skillImage',
             'createLoading',
             'formHasChanged',
-            'isEditSkill'
+            'isEditSkill',
+            'isFormComplete'
         ]),
     },
 
@@ -72,14 +73,14 @@ export default {
     },
 
     methods: {
-        createSkill () {
-            if (this.skillName === '' || this.skillLevel === '' || this.skillImage === null) {
-                this.$store.commit('modal/toggleModal', {
-                    modalName: 'alert-modal',
-                    modalType: 'error',
-                    modalTitle: 'Oooops!',
-                    modalDesc: 'Please fill up all fields!',
-                })
+        async createSkill () {
+            await this.$store.commit('skill/checkFormComplete')
+
+            if (!this.isFormComplete) {
+                this.$store.dispatch(
+                    'modal/errorModal',
+                    'Please fill up all fields!'
+                )
 
                 return
             }
@@ -92,13 +93,13 @@ export default {
 
             if (!this.formHasChanged) return
 
-            if (this.skillName === '' || this.skillLevel === '' || this.skillImage === null) {
-                this.$store.commit('modal/toggleModal', {
-                    modalName: 'alert-modal',
-                    modalType: 'error',
-                    modalTitle: 'Oooops!',
-                    modalDesc: 'Please fill up all fields!',
-                })
+            await this.$store.commit('skill/checkFormComplete')
+
+            if (!this.isFormComplete) {
+                this.$store.dispatch(
+                    'modal/errorModal',
+                    'Please fill up all fields!'
+                )
 
                 return
             }

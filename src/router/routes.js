@@ -6,6 +6,7 @@ const Login = () => import('@/views/guest/Login')
 const Dashboard = () => import('@/views/home/dashboard/Dashboard')
 const Skill = () => import('@/views/home/skill/Skill')
 const Portfolio = () => import('@/views/home/portfolio/Portfolio')
+const Education = () => import('@/views/home/education/Education')
 
 export default [
 	...middleware('guest', [
@@ -54,13 +55,22 @@ export default [
 					meta: {
 						header: 'Portfolio'
 					}
-				}
+				},
+
+				{
+					path: '/education',
+					name: 'education',
+					component: Education,
+					meta: {
+						header: 'Education'
+					}
+				},
 			]
 		},
 
 		{
 			path: '*',
-			name: 'PageNotFound',
+			name: 'Auth - PageNotFound',
 			component: PageNotFound,
 		}
 	]),
