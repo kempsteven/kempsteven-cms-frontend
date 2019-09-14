@@ -35,7 +35,7 @@ app.use(history({
     disableDotRule: true,
     verbose: true
 }));
-app.use(staticFileMiddleware);
+// app.use(staticFileMiddleware);
 
 app.get('/', function (req, res) {
     res.render(path.join(__dirname + '/dist/index.html'));
