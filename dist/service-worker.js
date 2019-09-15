@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.90f3959874c708716d3f76d61b260bdd.js"
+  "/precache-manifest.93ed67456dcd47d32eb481ea39aff269.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "kempsteven-cms-frontend"});

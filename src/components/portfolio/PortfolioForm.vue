@@ -23,7 +23,7 @@
             <InputField
                 label="Portfolio URL"
                 placeholder="Portfolio URL (Not Required)"
-                maxlength="30"
+                maxlength="60"
                 v-model="portfolioUrl"
             />
 
@@ -244,6 +244,7 @@ export default {
                     color: #fff;
                     border-radius: 50%;
                     transition: 0.3s;
+                    z-index: 1;
 
                     @include flex-box(center, center, '');
 
