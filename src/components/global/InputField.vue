@@ -25,6 +25,10 @@
         />
 
          <!-- For File Input Type -->
+        <div class="close" @click.self="removeFile()" v-if="inputType === 'file'">
+            &times;
+        </div>
+
         <label
             class="input-file"
             :for="uniqueId"
@@ -86,8 +90,15 @@ export default {
         this.generateUniqueId()
     },
 
-    mounted () {
-        this.setInputValue()
+    // mounted () {
+    //     this.setInputValue()
+    // },
+
+    watch: {
+        value: {
+            handler: 'setInputValue',
+            immediate: true
+        }
     },
 
     methods: {
@@ -102,9 +113,17 @@ export default {
                 reader.readAsDataURL(this.value)
 
                 reader.onloadend = () => {
+                    if (!this.$refs.inputFileLabel) return
+
                     this.$refs.inputFileLabel.style.backgroundImage = `url(${ reader.result })`
                     this.$refs.inputFileLabel.style.color = `rgba(255, 255, 255, 0)`
                 }
+            } else {
+                if (!this.$refs.inputFileLabel) return
+
+                this.$refs.inputFileLabel.style.backgroundImage = ``
+                
+                this.$refs.inputFileLabel.style.color = `#fff`
             }
         },
 
@@ -157,6 +176,10 @@ export default {
             }
 
             return true
+        },
+
+        removeFile () {
+            this.$emit('input', '')
         }
     },
 }
@@ -164,8 +187,32 @@ export default {
 
 <style lang="scss" scoped>
 .input-field {
+    position: relative;
+    
     &:not(:last-child) {
         margin-bottom: 15px;
+    }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: -8px;
+        width: 22px;
+        height: 22px;
+        padding: 0 0 2px 0px;
+        font-weight: 600;
+        cursor: pointer;
+        background: #eb573f;
+        color: #fff;
+        border-radius: 50%;
+        transition: 0.3s;
+        z-index: 1;
+
+        @include flex-box(center, center, '');
+
+        &:hover {
+            background: darken(#eb573f, 5%);
+        }
     }
 
     .input-title {
@@ -174,6 +221,7 @@ export default {
         margin-bottom: 10px;
         font-size: 14px;
         font-weight: 600;
+        height: 17px;
     }
 
     .input-box {

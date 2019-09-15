@@ -95,17 +95,28 @@ export default {
         },
 
         deletePortfolio ({ _id, portfolioDesktopImg, portfolioMobileImg }) {
+            let storePayload = {}
+
+            if (portfolioMobileImg && Object.keys(portfolioMobileImg).length) {
+                storePayload = {
+                    id: _id,
+                    oldPortfolioDesktopImgPublicId: portfolioDesktopImg.publicId,
+                    oldPortfolioMobileImgPublicId: portfolioMobileImg.publicId,
+                }
+            } else {
+                storePayload = {
+                    id: _id,
+                    oldPortfolioDesktopImgPublicId: portfolioDesktopImg.publicId
+                }
+            }
+
             this.$store.commit('modal/toggleModal', {
                 modalName: 'alert-modal',
                 modalType: 'warning',
                 modalTitle: 'Warning',
                 modalDesc: 'Are you sure you want to delete this portfolio?',
                 storeAction: 'portfolio/deletePortfolio',
-                storePayload: {
-                    id: _id,
-                    oldPortfolioDesktopImgPublicId: portfolioDesktopImg.publicId,
-                    oldPortfolioMobileImgPublicId: portfolioMobileImg.publicId,
-                }
+                storePayload: storePayload
             })
         },
 
@@ -117,7 +128,8 @@ export default {
 
             this.id = _id
             this.oldPortfolioDesktopImgPublicId = portfolioDesktopImg.publicId
-            this.oldPortfolioMobileImgPublicId = portfolioMobileImg.publicId
+            if (portfolioMobileImg) this.oldPortfolioMobileImgPublicId = portfolioMobileImg.publicId
+
             this.portfolioTitle = portfolioTitle
             this.portfolioDescription = portfolioDescription
             this.portfolioTechnologies = portfolioTechnologies.split(',')
@@ -134,7 +146,7 @@ export default {
             // creates a DOMString containing a URL
             //  representing the object given in the parameter
             this.portfolioDesktopImg = await convertImageToBlob(portfolioDesktopImg.url)
-            this.portfolioMobileImg = await convertImageToBlob(portfolioMobileImg.url)
+            if (portfolioMobileImg) this.portfolioMobileImg = await convertImageToBlob(portfolioMobileImg.url)
 
             this.$store.commit('modal/toggleModal', {
                 modalName: 'create-portfolio-modal'

@@ -189,9 +189,9 @@ export const mutations = {
 
     checkFormComplete () {
         if (
-            state.skillForm.skillName === '' ||
-            state.skillForm.skillLevel === '' ||
-            state.skillForm.skillImage === null
+            !state.skillForm.skillName ||
+            !state.skillForm.skillLevel ||
+            !state.skillForm.skillImage
         ) {
             state.isFormComplete = false
 

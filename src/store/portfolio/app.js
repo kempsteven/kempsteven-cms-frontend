@@ -87,7 +87,11 @@ export const actions = {
         form.append('portfolioTechnologies', portfolioTechnologies.join(','))
         form.append('portfolioUrl', portfolioUrl)
         form.append('portfolioDesktopImg', portfolioDesktopImg)
-        form.append('portfolioMobileImg', portfolioMobileImg)
+        
+        // portfolioMobileImg is optional
+        if (portfolioMobileImg) {
+            form.append('portfolioMobileImg', portfolioMobileImg)
+        }
 
         const { status, data } = await api('post', `/portfolio/add-portfolio`, form)
 
@@ -122,7 +126,9 @@ export const actions = {
 
         const form = new FormData()
         form.append('oldPortfolioDesktopImgPublicId', oldPortfolioDesktopImgPublicId)
-        form.append('oldPortfolioMobileImgPublicId', oldPortfolioMobileImgPublicId)
+
+        // append oldPortfolioMobileImgPublicId only when there is a mobile image to be replaced/removed
+        if (oldPortfolioMobileImgPublicId) form.append('oldPortfolioMobileImgPublicId', oldPortfolioMobileImgPublicId)
 
         // Axios for Delete Request we would have to pass a { data: form } object
         const { status, data } = await api('delete', `/portfolio/delete-portfolio/${id}`, { data: form })
@@ -179,10 +185,15 @@ export const actions = {
         form.append('portfolioDescription', portfolioDescription)
         form.append('portfolioTechnologies', portfolioTechnologies)
         form.append('portfolioUrl', portfolioUrl)
-        form.append('oldPortfolioDesktopImgPublicId', oldPortfolioDesktopImgPublicId)
-        form.append('oldPortfolioMobileImgPublicId', oldPortfolioMobileImgPublicId)
+
         form.append('portfolioDesktopImg', portfolioDesktopImg)
+        form.append('oldPortfolioDesktopImgPublicId', oldPortfolioDesktopImgPublicId)
         form.append('portfolioMobileImg', portfolioMobileImg)
+
+        // if there is only a mobile image to replace append this
+        if (oldPortfolioMobileImgPublicId) {
+            form.append('oldPortfolioMobileImgPublicId', oldPortfolioMobileImgPublicId)
+        }
 
         const { status, data } = await api('patch', `/portfolio/edit-portfolio/${id}`, form)
 
@@ -243,11 +254,10 @@ export const mutations = {
 
     checkFormComplete() {
         if (
-            state.portfolioForm.portfolioTitle === '' ||
-            state.portfolioForm.portfolioDescription === '' ||
-            state.portfolioForm.portfolioTechnologies === '' ||
-            state.portfolioForm.portfolioDesktopImg === '' ||
-            state.portfolioForm.portfolioMobileImg === ''
+            !state.portfolioForm.portfolioTitle ||
+            !state.portfolioForm.portfolioDescription ||
+            !state.portfolioForm.portfolioTechnologies ||
+            !state.portfolioForm.portfolioDesktopImg
         ) {
             state.isFormComplete = false
 
