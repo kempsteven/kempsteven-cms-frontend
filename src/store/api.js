@@ -1,8 +1,8 @@
 import axios from 'axios'
 import store from './'
 
-// axios.defaults.baseURL = 'https://kempsteven-cms-backend.herokuapp.com'
-axios.defaults.baseURL = 'http://localhost:3000'
+axios.defaults.baseURL = 'https://kempsteven-cms-backend.herokuapp.com'
+// axios.defaults.baseURL = 'http://localhost:3000'
 
 axios.interceptors.request.use(request => {
     const token = store.getters['authentication/getField']('token')
